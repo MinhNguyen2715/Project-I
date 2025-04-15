@@ -1,16 +1,9 @@
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-        AtomicRedTeamCollector collector = new AtomicRedTeamCollector();
-        try {
-            String technique = collector.getTechniqueData("T1001.002");
-            System.out.println(technique);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws IOException {
+        String command = "echo 'hello'";
+        String result = PowerShellExecutor.execute("Get-Process | Select-Object -First 5");
+        System.out.println(result);
     }
 }
