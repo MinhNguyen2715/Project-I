@@ -5,7 +5,7 @@ public class Main {
         PowerShellExecutor powerShellExecutor = new PowerShellExecutor();
         AtomicTestManager atomicTestManager = new AtomicTestManager(powerShellExecutor);
 
-        String res = atomicTestManager.showDetails("T1001.002");
+        String res = atomicTestManager.checkPrereqs("T1218.010",1);
         System.out.println(res);
     }
 }

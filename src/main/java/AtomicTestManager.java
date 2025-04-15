@@ -18,17 +18,28 @@ public class AtomicTestManager {
         return powerShellExecutor.execute(command);
     }
 
+    public String checkPrereqs(String techniqueId, int testNumber) throws IOException {
+        String command = String.format("%s Invoke-AtomicTest %s -TestNumbers \"%d\" -CheckPrereqs", IMPORT_MODULE, techniqueId, testNumber);
+        return powerShellExecutor.execute(command);
+    }
+
     public String checkPrereqs(String techniqueId) throws IOException {
         String command = String.format("%s Invoke-AtomicTest %s -CheckPrereqs", IMPORT_MODULE, techniqueId);
         return powerShellExecutor.execute(command);
     }
 
-    public String installPrereqs(String techniqueId, String testName) throws IOException {
+
+    public String getPrereqs(String techniqueId, String testName) throws IOException {
         String command = String.format("%s Invoke-AtomicTest %s -TestName \"%s\" -GetPrereqs | Invoke-Expression", IMPORT_MODULE, techniqueId, testName);
         return powerShellExecutor.execute(command);
     }
 
-    public String installPrereqs(String techniqueId) throws IOException {
+    public String getPrereqs(String techniqueId, int testNumber) throws IOException {
+        String command = String.format("%s Invoke-AtomicTest %s -TestNumbers \"%d\" -GetPrereqs | Invoke-Expression", IMPORT_MODULE, techniqueId, testNumber);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String getPrereqs(String techniqueId) throws IOException {
         String command = String.format("%s Invoke-AtomicTest %s -GetPrereqs | Invoke-Expression", IMPORT_MODULE, techniqueId);
         return powerShellExecutor.execute(command);
     }
