@@ -1,9 +1,8 @@
 import java.io.*;
 
 public class PowerShellExecutor {
-
     // Run any PowerShell command and return its output
-    public static String execute(String command) throws IOException {
+    public String execute(String command) throws IOException {
         ProcessBuilder builder = new ProcessBuilder("pwsh", "-Command", command);
         builder.redirectErrorStream(true);
         Process process = builder.start();
@@ -26,35 +25,4 @@ public class PowerShellExecutor {
         return output.toString();
     }
 
-    // Run test by technique ID
-    public static String runAtomicTest(String techniqueId) throws IOException {
-        return execute("Invoke-AtomicTest " + techniqueId);
-    }
-
-    // Check if prerequisites are satisfied for a given test
-    public static String checkPrereqs(String techniqueId, String testName) throws IOException {
-        String command = String.format("Invoke-AtomicTest %s -TestName \"%s\" -CheckPrereqs", techniqueId, testName);
-        return execute(command);
-    }
-
-    public static String checkPrereqs(String techniqueId) throws IOException {
-        String command = String.format("Invoke-AtomicTest %s -CheckPrereqs", techniqueId);
-        return execute(command);
-    }
-
-    // Install missing prerequisites
-    public static String installPrereqs(String techniqueId, String testName) throws IOException {
-        String command = String.format("Invoke-AtomicTest %s -TestName \"%s\" -GetPrereqs | Invoke-Expression", techniqueId, testName);
-        return execute(command);
-    }
-
-    public static String installPrereqs(String techniqueId) throws IOException {
-        String command = String.format("Invoke-AtomicTest %s -GetPrereqs | Invoke-Expression", techniqueId);
-        return execute(command);
-    }
-
-    // Run Get-PrereqCommand for technique
-    public static String runPrereq(String techniqueId) throws IOException {
-        return execute("Get-PrereqCommand " + techniqueId + " | Invoke-Expression");
-    }
 }
