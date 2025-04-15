@@ -13,6 +13,40 @@ public class AtomicTestManager {
         return powerShellExecutor.execute(command);
     }
 
+    public String runAtomicTest(String techniqueId, int testNumber) throws IOException {
+        String command = String.format("%s Invoke-AtomicTest %s -TestNumbers %s", IMPORT_MODULE, techniqueId, testNumber);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String runAtomicTest(String techniqueId, int[] testNumbers) throws IOException {
+        StringBuilder testNumbersStr = new StringBuilder();
+        for (int num : testNumbers) {
+            testNumbersStr.append(num).append(",");
+        }
+
+        // Remove trailing comma
+        if (testNumbersStr.length() > 0) {
+            testNumbersStr.setLength(testNumbersStr.length() - 1);
+        }
+
+        String command = String.format("%s Invoke-AtomicTest %s -TestNumbers %s",
+                IMPORT_MODULE, techniqueId, testNumbersStr);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String runAtomicTest(String techniqueId, String testNumbersStr) throws IOException {
+        // Split the string and parse to int array
+        String[] parts = testNumbersStr.split(",");
+        int[] testNumbers = new int[parts.length];
+
+        for (int i = 0; i < parts.length; i++) {
+            testNumbers[i] = Integer.parseInt(parts[i].trim());
+        }
+
+        // Call the int[] version
+        return runAtomicTest(techniqueId, testNumbers);
+    }
+
     public String checkPrereqs(String techniqueId, String testName) throws IOException {
         String command = String.format("%s Invoke-AtomicTest %s -TestName \"%s\" -CheckPrereqs", IMPORT_MODULE, techniqueId, testName);
         return powerShellExecutor.execute(command);
@@ -56,6 +90,16 @@ public class AtomicTestManager {
 
     public String showDetails(String techniqueId) throws IOException {
         String command = String.format("%s Invoke-AtomicTest %s -ShowDetails", IMPORT_MODULE, techniqueId);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String showAll() throws IOException {
+        String command = String.format("%s Invoke-AtomicTest All -ShowDetailsBrief", IMPORT_MODULE);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String showAllOs() throws IOException {
+        String command = String.format("%s Invoke-AtomicTest All -ShowDetailsBrief -anyOS", IMPORT_MODULE);
         return powerShellExecutor.execute(command);
     }
 }
