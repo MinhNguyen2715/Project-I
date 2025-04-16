@@ -2,7 +2,10 @@ import java.io.IOException;
 
 public class AtomicTestManager {
     private final PowerShellExecutor powerShellExecutor;
-    private static final String IMPORT_MODULE = "Import-Module \".\\invoke-atomicredteam\\Invoke-AtomicRedTeam.psd1\";";
+    private static final String IMPORT_MODULE =
+            "Import-Module \".\\invoke-atomicredteam\\Invoke-AtomicRedTeam.psd1\";";
+
+    private static final String LOG_PATH = "";
 
     public AtomicTestManager(PowerShellExecutor powerShellExecutor) {
         this.powerShellExecutor = powerShellExecutor;
@@ -100,6 +103,16 @@ public class AtomicTestManager {
 
     public String showAllOs() throws IOException {
         String command = String.format("%s Invoke-AtomicTest All -ShowDetailsBrief -anyOS", IMPORT_MODULE);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String cleanupAtomicTest(String techniqueId, String testNumber) throws IOException {
+        String command = String.format("%s Invoke-AtomicTest %s -TestNumbers %s -Cleanup", IMPORT_MODULE, techniqueId, testNumber);
+        return powerShellExecutor.execute(command);
+    }
+
+    public String cleanupAtomicTest(String techniqueId) throws IOException {
+        String command = String.format("%s Invoke-AtomicTest %s -Cleanup", IMPORT_MODULE, techniqueId);
         return powerShellExecutor.execute(command);
     }
 }

@@ -15,14 +15,19 @@ public class Main {
         PowerShellExecutor powerShellExecutor = new PowerShellExecutor();
         AtomicTestManager atomicTestManager = new AtomicTestManager(powerShellExecutor);
         while (true){
+            System.out.println("*** Atomic Test Runner System ***");
+            System.out.println("------------------------------");
             System.out.println("Choose Invoke-Atomic command:");
             System.out.println("1. View detail");
             System.out.println("2. Check prerequisites");
             System.out.println("3. Get prerequisites");
             System.out.println("4. Run Atomic Test");
-            System.out.println("5. List all Atomic test");
+            System.out.println("5. Cleanup Atomic Test");
+            System.out.println("6. List all Atomic test");
             System.out.println("0. Exit");
+            System.out.println("------------------------------");
             String respond = scanner.nextLine();
+
 
             String ans;
             switch (respond){
@@ -56,7 +61,8 @@ public class Main {
                     }
                     break;
                 case "3":
-                    System.out.println();
+                    System.out.println("Enter technique ID:");
+                    id = scanner.nextLine();
                     break;
                 case "4":
                     System.out.println("Enter technique ID:");
@@ -73,8 +79,22 @@ public class Main {
                         }
                     }
                     break;
-
                 case "5":
+                    System.out.println("Enter technique ID:");
+                    id = scanner.nextLine();
+                    System.out.println("Cleanup all or specify tests? (A/test numbers)");
+                    ans = scanner.nextLine().toLowerCase();
+                    if ("a".equals(ans)){
+                        System.out.println(atomicTestManager.cleanupAtomicTest(id));
+                    } else {
+                        try {
+                            System.out.println(atomicTestManager.cleanupAtomicTest(id, ans));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid test number.");
+                        }
+                    }
+                    break;
+                case "6":
                     System.out.println("Any OS? (Y/N)");
                     ans = scanner.nextLine().toLowerCase();
                     if ("y".equals(ans)){
