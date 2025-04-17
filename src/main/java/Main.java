@@ -24,6 +24,7 @@ public class Main {
             System.out.println("4. Run Atomic Test");
             System.out.println("5. Cleanup Atomic Test");
             System.out.println("6. List all Atomic test");
+            System.out.println("7. Auto Run A Technique");
             System.out.println("0. Exit");
             System.out.println("------------------------------");
             String respond = scanner.nextLine();
@@ -102,6 +103,22 @@ public class Main {
                     } else {
                         System.out.println(atomicTestManager.showAll());}
                     break;
+
+                case "7":
+                    System.out.println("Enter technique ID:");
+                    id = scanner.nextLine();
+                    String os;
+                    do{
+                        System.out.println("OS? (Window, Linux, MacOS)");
+                        os = scanner.nextLine();
+                    } while (! os.equals("Window") && ! os.equals("Linux") && ! os.equals("MacOS"));
+                    try {
+                        System.out.println(atomicTestManager.runAllTestsForTechnique(id,os));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid test number.");
+                    }
+                    break;
+
                 default:
                     System.out.println("Enter correct command!");
                     break;
