@@ -38,30 +38,33 @@ public class AtomicTestManager {
     }
 
     public String runAllTestsForTechnique(String techniqueId, String os) throws IOException {
-        if (os.equalsIgnoreCase("windows")) {
-            String psScript = String.join("\n",
-                    "Import-Module \"./invoke-atomicredteam/Invoke-AtomicRedTeam.psd1\";",
-                    "$techniques = Get-AtomicTechnique -Path C:\\AtomicRedTeam\\atomics\\T" + techniqueId + "\\T" + techniqueId + ".yaml;",
-                    "foreach ($technique in $techniques) {",
-                    "  foreach ($atomic in $technique.atomic_tests) {",
-                    "    if ($atomic.supported_platforms -contains 'windows' -and ($atomic.executor.name -ne 'manual')) {",
-                    "      try {",
-                    "        Write-Output \"Running: $($atomic.name) [$($atomic.auto_generated_guid)]\";",
-                    "        Invoke-AtomicTest $technique.attack_technique -TestGuids $atomic.auto_generated_guid -GetPrereqs | Out-String;",
-                    "        Invoke-AtomicTest $technique.attack_technique -TestGuids $atomic.auto_generated_guid | Out-String;",
-                    "        Start-Sleep -Seconds 3;",
-                    "        Invoke-AtomicTest $technique.attack_technique -TestGuids $atomic.auto_generated_guid -Cleanup | Out-String;",
-                    "      } catch {",
-                    "        Write-Warning \"Failed: $($atomic.name)\";",
-                    "      }",
-                    "    }",
-                    "  }",
-                    "}"
-            );
-            return powerShellExecutor.execute(psScript);
-        }
+        String psScript = String.join("\n",
+                "Import-Module \"C:\\AtomicRedTeam\\invoke-atomicredteam\\Invoke-AtomicRedTeam.psd1\" -Force;",
+                // Get the single technique file
+                "$technique = Get-AtomicTechnique -Path \"C:\\AtomicRedTeam\\atomics\\" + techniqueId + "\\" + techniqueId + ".yaml\";",
+                // Loop through atomic tests
+                "foreach ($atomic in $technique.atomic_tests) {",
+                "  if ($atomic.supported_platforms -contains '" + os + "' -and ($atomic.executor.name -ne 'manual')) {",
+                "    try {",
+                "      Write-Output \"----------------------------------------------\"",
+                "      Write-Output \"Checking prereqs for test: $($atomic.name) [$($atomic.auto_generated_guid)]\";",
+                "      Invoke-AtomicTest " + techniqueId + " -TestGuids $atomic.auto_generated_guid -GetPrereqs | Out-Null;",
+                "      Write-Output \"Running: $($atomic.name) [$($atomic.auto_generated_guid)]\";",
+                "      Invoke-AtomicTest " + techniqueId + " -TestGuids $atomic.auto_generated_guid;",
+                "      Start-Sleep -Seconds 2;",
+                "      Write-Output \"Cleaning up test: $($atomic.name) [$($atomic.auto_generated_guid)]\";",
+                "      Invoke-AtomicTest " + techniqueId + " -TestGuids $atomic.auto_generated_guid -Cleanup;",
+                "      Write-Output \"Done with test: $($atomic.name)\";",
+                "    } catch {",
+                "      Write-Warning \"Failed test: $($atomic.name)\";",
+                "    }",
+                "  } else {",
+                "    Write-Output \"Skipping test: $($atomic.name) [Unsupported OS or manual executor]\"",
+                "  }",
+                "}"
+        );
 
-        return "Unsupported OS or empty technique ID";
+        return powerShellExecutor.execute(psScript);
     }
 
 

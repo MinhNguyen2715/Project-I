@@ -24,13 +24,12 @@ public class Main {
             System.out.println("4. Run Atomic Test");
             System.out.println("5. Cleanup Atomic Test");
             System.out.println("6. List all Atomic test");
-            System.out.println("7. Auto Run A Technique");
+            System.out.println("7. Auto Run A Manual Technique");
             System.out.println("0. Exit");
             System.out.println("------------------------------");
             String respond = scanner.nextLine();
-
-
             String ans;
+
             switch (respond){
                 case "0":
                     System.out.println("Exiting...");
