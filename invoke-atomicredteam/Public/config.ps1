@@ -21,7 +21,7 @@ $artConfig = [PSCustomObject]@{
   kickOffDelay               = New-TimeSpan -Minutes 0 # an additional delay before Invoke-KickoffAtomicRunner calls Invoke-AtomicRunner
   scheduleFileName           = "AtomicRunnerSchedule.csv"
 
-  # [optional] Logging Module, uses Syslog-ExecutionLogger if left blank and the syslogServer and syslogPort are set, otherwise it uses the Default-ExecutionLogger
+  # [optional] Logger Module, uses Syslog-ExecutionLogger if left blank and the syslogServer and syslogPort are set, otherwise it uses the Default-ExecutionLogger
   LoggingModule              = ''
 
   # [optional] Syslog configuration, default execution logs will be sent to this server:port

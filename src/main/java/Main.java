@@ -63,6 +63,18 @@ public class Main {
                 case "3":
                     System.out.println("Enter technique ID:");
                     id = scanner.nextLine();
+                    System.out.println("Get prerequisites fỏ all testcase or 1 testcase? (A/test number)");
+                    ans = scanner.nextLine().toLowerCase();
+                    if ("a".equals(ans)){
+                        System.out.println(atomicTestManager.getPrereqs(id));
+                    } else {
+                        try {
+                            int testNumber = Integer.parseInt(ans);
+                            System.out.println(atomicTestManager.getPrereqs(id, testNumber));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid test number.");
+                        }
+                    }
                     break;
                 case "4":
                     System.out.println("Enter technique ID:");
