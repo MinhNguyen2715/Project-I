@@ -52,7 +52,7 @@ public class LogExporter {
                 row.createCell(11).setCellValue(log.getResult());
             }
 
-            // Tự động căn chỉnh cột
+            // Căn chỉnh cột
             for (int i = 0; i < headers.length; i++) {
                 sheet.autoSizeColumn(i);
             }
