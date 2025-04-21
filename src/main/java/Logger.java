@@ -20,6 +20,7 @@ public class Logger {
 
     public static void setAppend(Boolean value) {
         append = value;
+
     }
 
     public static void log(String techniqueId, String testGuid, String command, String result) {
