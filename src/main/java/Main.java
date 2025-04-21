@@ -90,6 +90,7 @@ public class Main {
                             System.out.println("Invalid test number.");
                         }
                     }
+                    LogExporter.exportJsonToExcel("logs/atomic-log.json", "logs/atomic-log.xlsx");
                     break;
                 case "5":
                     System.out.println("Enter technique ID:");

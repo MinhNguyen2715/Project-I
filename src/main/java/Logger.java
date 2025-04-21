@@ -14,12 +14,6 @@ public class Logger {
     private static final String LOG_FILE_PATH = "logs/atomic-log.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    private static Boolean append = true;
-
-    public static void setAppend(Boolean append) {
-        Logger.append = append;
-    }
-
     public static void log(String techniqueId, String testGuid, String command, String result) {
         try {
             AtomicTestLog logEntry = new AtomicTestLog();
@@ -39,7 +33,7 @@ public class Logger {
             logEntry.setResult(result);
 
             String json = gson.toJson(logEntry);
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE_PATH, append))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE_PATH, true))) {
                 writer.write(json);
                 writer.newLine();
             }

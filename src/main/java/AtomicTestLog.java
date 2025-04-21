@@ -12,6 +12,7 @@ public class AtomicTestLog {
     private String command;
     private String result;
 
+    // Setters
     public void setExecutionTimeUtc(String executionTimeUtc) { this.executionTimeUtc = executionTimeUtc; }
     public void setExecutionTimeLocal(String executionTimeLocal) { this.executionTimeLocal = executionTimeLocal; }
     public void setTechnique(String technique) { this.technique = technique; }
@@ -24,4 +25,18 @@ public class AtomicTestLog {
     public void setCustomTag(String customTag) { this.customTag = customTag; }
     public void setCommand(String command) { this.command = command; }
     public void setResult(String result) { this.result = result; }
+
+    // Getters
+    public String getExecutionTimeUtc() { return executionTimeUtc; }
+    public String getExecutionTimeLocal() { return executionTimeLocal; }
+    public String getTechnique() { return technique; }
+    public String getTestNumber() { return testNumber; }
+    public String getHostname() { return hostname; }
+    public String getIpAddress() { return ipAddress; }
+    public String getUsername() { return username; }
+    public String getGuid() { return guid; }
+    public String getTag() { return tag; }
+    public String getCustomTag() { return customTag; }
+    public String getCommand() { return command; }
+    public String getResult() { return result; }
 }
